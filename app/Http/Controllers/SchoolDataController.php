@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
+use App\Models\SchoolClass;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +17,11 @@ class SchoolDataController extends Controller
      */
     public function index()
     {
-        //
+        if (Auth::user()->role_id == 3) {
+            return view('school_data.school_data');
+        } else {
+            return view('error');
+        }
     }
 
     /**
@@ -25,7 +32,9 @@ class SchoolDataController extends Controller
     public function create()
     {
         if (Auth::user()->role_id == 3) {
-            return view('school_data.school_data');
+            $users = User::get();
+            $roles = Role::get();
+            return view('school_data.all_accounts', ['users' => $users, 'roles' => $roles]);
         } else {
             return view('error');
         }
@@ -39,7 +48,12 @@ class SchoolDataController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (Auth::user()->role_id == 3) {
+            $school_class = $request->school_class;
+            return view('school_data.class_accounts', ['school_class' => $school_class]);
+        } else {
+            return view('error');
+        }
     }
 
     /**
@@ -50,7 +64,12 @@ class SchoolDataController extends Controller
      */
     public function show($id)
     {
-        //
+        if (Auth::user()->role_id == 3) {
+            $school_classes = SchoolClass::get();
+            return view('school_data.choose_class', ['school_classes' => $school_classes]);
+        } else {
+            return view('error');
+        }
     }
 
     /**
@@ -84,6 +103,11 @@ class SchoolDataController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (Auth::user()->role_id == 3) {
+            User::destroy($id);
+            return $this->create();
+        } else {
+            return view('error');
+        }
     }
 }

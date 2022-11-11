@@ -107,12 +107,4 @@ class AccountController extends Controller
     {
         //
     }
-
-    //    public function school_data()
-//    {
-//        $users = User::get();
-//        $accounts = Role::get();
-////        return view('accounts.school_data', ['users' => $users, 'accounts' => $accounts]);
-//        return redirect(RouteServiceProvider::HOME);
-//    }
 }

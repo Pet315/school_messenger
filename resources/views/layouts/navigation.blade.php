@@ -22,7 +22,7 @@
                         {{ __('Profile') }}
                     </x-nav-link>
                     @if(Auth::user()->role_id == 3)
-                        <x-nav-link :href="route('school_data.create')" :active="request()->routeIs('school_data.create')">
+                        <x-nav-link :href="route('school_data.index')" :active="request()->routeIs('school_data.index')">
                             {{ __('School data') }}
                         </x-nav-link>
                         <x-nav-link :href="route('accounts.create')" :active="request()->routeIs('accounts.create')">

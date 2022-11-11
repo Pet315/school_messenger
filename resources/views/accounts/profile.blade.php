@@ -26,6 +26,11 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <b>Other info:</b> {{$user['other_info']}}
                 </div>
+{{--                <div class="p-6 bg-white border-b border-gray-200">--}}
+{{--                    <x-primary-button onclick="location.href = '/school_data'" style="background-color: darkblue">--}}
+{{--                        {{ __('School data') }}--}}
+{{--                    </x-primary-button>--}}
+{{--                </div>--}}
             </div>
         </div>
     </div>

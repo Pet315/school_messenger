@@ -34,12 +34,12 @@ Route::resource('school_data', SchoolDataController::class);
 //    return view('profile', ['role' => $role, 'user' => $user]);
 //})->middleware(['auth', 'verified'])->name('profile');
 
-//Route::get('/school_data', function () {
-//    return view('accounts.school_data');
-//});
-//
-//Route::get('/creating_accounts', function () {
-//    return view('accounts.creating_accounts');
+//Route::get('/create_account', function () {
+//    if (Auth::user()->role_id == 3) {
+//        $roles = Role::get();
+//        return view('accounts.create_account', ['roles' => $roles]);
+//    }
+//    return view('error');
 //});
 
 require __DIR__.'/auth.php';
