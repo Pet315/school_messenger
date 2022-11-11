@@ -18,6 +18,9 @@
                     <b>Patronymic:</b> {{$user['patronymic']}}
                 </div>
                 <div class="p-6 bg-white border-b border-gray-200">
+                    <b>Email:</b> {{$user['email']}}
+                </div>
+                <div class="p-6 bg-white border-b border-gray-200">
                     <b>Phone number:</b> {{$user['phone_number']}}
                 </div>
                 <div class="p-6 bg-white border-b border-gray-200">

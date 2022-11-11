@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('chats', function (Blueprint $table) {
             $table->id();
             $table->string('name');
 //            $table->timestamps();
         });
 
-//        Schema::table('accounts', function (Blueprint $table) {
-//            $table->foreignId('id')->constrained();
-//        });
+        Schema::table('chats', function (Blueprint $table) {
+            $table->foreignId('user_id')->constrained();
+        });
     }
 
     /**
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('chats');
     }
 };

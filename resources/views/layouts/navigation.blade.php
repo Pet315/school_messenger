@@ -5,18 +5,30 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('accounts') }}">
 {{--                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />--}}
-                        <img src="img/sm-logo.jpg" width="50">
+{{--                        <img src="img/sm-logo.jpg" width="50">--}}
+{{--                        <img src="https://upload.wikimedia.org/wikipedia/en/6/63/SM_Supermalls_logo_2022.svg" width="50">--}}
+{{--                        <img src="https://cdn.dribbble.com/users/2163695/screenshots/15105996/media/344510b03d6d320293f212b43742f5b9.png" width="80" style="border-radius: 50%;">--}}
+{{--                        <img src="https://play-lh.googleusercontent.com/ixkgUVFm8vKyoxYYviHwwYvSvgmpq7ADJqiVPkDe1bfdA6QNl91GJ2Qh03_x2-qjEyJP=w240-h480-rw" width="50" style="border-radius: 50%">--}}
+                        <img src="https://png.pngtree.com/png-clipart/20211009/original/pngtree-school-logo-png-image_6846798.png" width="50" style="border-radius: 50%">
                     </a>
-                    <a href="{{ route('dashboard') }}" style="margin-left: 10px"><b>School Messenger</b></a>
+                    <a href="{{ route('accounts') }}" style="margin-left: 10px"><b>School Messenger</b></a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('accounts')" :active="request()->routeIs('accounts')">
                         {{ __('Profile') }}
                     </x-nav-link>
+                    @if(Auth::user()->role_id == 3)
+                        <x-nav-link :href="route('school_data.create')" :active="request()->routeIs('school_data.create')">
+                            {{ __('School data') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('accounts.create')" :active="request()->routeIs('accounts.create')">
+                            {{ __('Creating accounts') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -65,8 +77,8 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+            <x-responsive-nav-link :href="route('accounts')" :active="request()->routeIs('accounts')">
+                {{ __('Profile') }}
             </x-responsive-nav-link>
         </div>
 

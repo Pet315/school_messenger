@@ -3,7 +3,8 @@
         <x-slot name="logo">
             <a href="/">
 {{--                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />--}}
-                <img src="img/sm-logo.jpg" width="80" style="margin-left: 30px">
+{{--                <img src="img/sm-logo.jpg" width="80" style="margin-left: 30px">--}}
+                <img src="https://png.pngtree.com/png-clipart/20211009/original/pngtree-school-logo-png-image_6846798.png" width="100" style="margin-left: 20px; border-radius: 50%">
             </a>
             <p style="margin-top: 10px"><b>School Messenger</b></p>
         </x-slot>
@@ -50,7 +51,7 @@
 {{--                    </a>--}}
 {{--                @endif--}}
 
-                <x-primary-button class="ml-3 mt-4">
+                <x-primary-button class="ml-3 mt-4" style="background-color: darkblue">
                     {{ __('Log in') }}
                 </x-primary-button>
             </div>
