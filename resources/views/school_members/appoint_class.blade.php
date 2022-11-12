@@ -12,13 +12,16 @@
                         @csrf
                         <!-- School class -->
                         <div>
-                            <x-input-label for="school_class" :value="__('School class')" />
+                            <x-input-label for="school_class_id" :value="__('School class')" />
 
-                            <select id="school_class" class="form-select block mt-1 w-full" type="text" name="school_class" style="border-color: lightgrey">
+                            <select id="school_class_id" class="form-select block mt-1 w-full" type="text" name="school_class_id" style="border-color: lightgrey">
                                 @foreach($school_classes as $school_class)
                                     <option value="{{$school_class['id']}}" selected>{{$school_class['name']}}</option>
                                 @endforeach
                             </select>
+
+                            <input type='hidden' name='user_id' value="{{$user['id']}}" />
+
                         </div>
 
                         <div class="flex items-center justify-end mt-4">

@@ -40,6 +40,8 @@ class SchoolMemberController extends Controller
     {
         if (Auth::user()->role_id == 3) {
             SchoolMember::insert([
+                'user_id' => $request->user_id,
+                'school_class_id' => $request->school_class_id
             ]);
             return SchoolDataController::create();
         } else {
