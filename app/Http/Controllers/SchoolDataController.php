@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\SchoolClass;
+use App\Models\SchoolMember;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +35,10 @@ class SchoolDataController extends Controller
         if (Auth::user()->role_id == 3) {
             $users = User::get();
             $roles = Role::get();
-            return view('school_data.all_accounts', ['users' => $users, 'roles' => $roles]);
+            $school_members = SchoolMember::get();
+            $school_classes = SchoolClass::get();
+            return view('school_data.all_accounts', ['users' => $users, 'roles' => $roles,
+                'school_members' => $school_members, 'school_classes' => $school_classes]);
         } else {
             return view('error');
         }
