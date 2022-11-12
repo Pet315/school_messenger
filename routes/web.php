@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Role;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\SchoolDataController;
+use App\Http\Controllers\SchoolMemberController;
+use App\Http\Controllers\SchoolClassController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +29,10 @@ Route::resource('accounts', AccountController::class);
 Route::get('/accounts', [AccountController::class, 'index'])->middleware(['auth', 'verified'])->name('accounts');
 
 Route::resource('school_data', SchoolDataController::class);
+
+Route::resource('school_members', SchoolMemberController::class);
+
+Route::resource('school_classes', SchoolClassController::class);
 
 //Route::get('/profile', function () {
 //    $role = Role::find(Auth::user()->role_id);

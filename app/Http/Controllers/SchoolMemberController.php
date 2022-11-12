@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers;
 
-//use App\Http\Requests\StorePostRequest;
 use App\Models\SchoolClass;
+use App\Models\SchoolMember;
 use App\Models\User;
-use App\Models\Role;
-use Exception;
 use Illuminate\Http\Request;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
-class AccountController extends Controller
+class SchoolMemberController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,9 +17,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $role = Role::find(Auth::user()->role_id);
-        $user = Auth::user();
-        return view('accounts.profile', ['role' => $role, 'user' => $user]);
+        //
     }
 
     /**
@@ -33,11 +27,7 @@ class AccountController extends Controller
      */
     public function create()
     {
-        if (Auth::user()->role_id == 3) {
-            $roles = Role::get();
-            return view('accounts.create_account', ['roles' => $roles]);
-        }
-        return view('error');
+        //
     }
 
     /**
@@ -48,19 +38,13 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        User::insert([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'name' => $request->name,
-            'surname' => $request->surname,
-            'patronymic' => $request->patronymic,
-            'phone_number' => $request->phone_number,
-            'other_info' => $request->other_info,
-            'role_id' => $request->role_id
-        ]);
-//        $user = User::where('email', $request->email)->where('role_id', $request->role_id)->get()[0];
-
-        return redirect(RouteServiceProvider::HOME);
+        if (Auth::user()->role_id == 3) {
+            SchoolMember::insert([
+            ]);
+            return SchoolDataController::create();
+        } else {
+            return view('error');
+        }
     }
 
     /**
@@ -69,9 +53,15 @@ class AccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
     public function show($id)
     {
+        if (Auth::user()->role_id == 3) {
+            $user = User::find($id);
+            $school_classes = SchoolClass::get();
+            return view('school_members.appoint_class', ['user' => $user, 'school_classes' => $school_classes]);
+        } else {
+            return view('error');
+        }
     }
 
     /**
@@ -105,11 +95,6 @@ class AccountController extends Controller
      */
     public function destroy($id)
     {
-        if (Auth::user()->role_id == 3) {
-            User::destroy($id);
-            return SchoolDataController::create();
-        } else {
-            return view('error');
-        }
+        //
     }
 }

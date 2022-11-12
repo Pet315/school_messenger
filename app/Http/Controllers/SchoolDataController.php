@@ -29,7 +29,7 @@ class SchoolDataController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public static function create()
     {
         if (Auth::user()->role_id == 3) {
             $users = User::get();
@@ -56,6 +56,15 @@ class SchoolDataController extends Controller
         }
     }
 
+    public function choose_class() {
+        if (Auth::user()->role_id == 3) {
+            $school_classes = SchoolClass::get();
+            return view('school_data.choose_class', ['school_classes' => $school_classes]);
+        } else {
+            return view('error');
+        }
+    }
+
     /**
      * Display the specified resource.
      *
@@ -64,12 +73,7 @@ class SchoolDataController extends Controller
      */
     public function show($id)
     {
-        if (Auth::user()->role_id == 3) {
-            $school_classes = SchoolClass::get();
-            return view('school_data.choose_class', ['school_classes' => $school_classes]);
-        } else {
-            return view('error');
-        }
+        //
     }
 
     /**
@@ -103,11 +107,6 @@ class SchoolDataController extends Controller
      */
     public function destroy($id)
     {
-        if (Auth::user()->role_id == 3) {
-            User::destroy($id);
-            return $this->create();
-        } else {
-            return view('error');
-        }
+        //
     }
 }

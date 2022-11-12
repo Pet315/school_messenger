@@ -8,7 +8,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form method="POST" action="/accounts/appoint_class/{{$user['id']}}">
+                    <form method="POST" action="{{route('school_members.store')}}">
                         @csrf
                         <!-- School class -->
                         <div>
@@ -25,7 +25,7 @@
                             <x-primary-button style="background-color: darkblue">
                                 {{ __('Appoint') }}
                             </x-primary-button>
-                            <x-primary-button onclick="location.href = '{{ route('accounts') }}'" class="ml-4" style="background-color: #ec1212">
+                            <x-primary-button onclick="location.href = '{{route('school_data.create')}}'" class="ml-4" style="background-color: #ec1212">
                                 {{ __("Don't appoint") }}
                             </x-primary-button>
                         </div>

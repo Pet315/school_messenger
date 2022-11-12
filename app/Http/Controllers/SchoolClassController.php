@@ -6,6 +6,7 @@ use App\Models\SchoolClass;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SchoolClassController extends Controller
 {
@@ -51,9 +52,6 @@ class SchoolClassController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
-        $school_classes = SchoolClass::get();
-        return view('school_classes.appoint_class', ['user' => $user, 'school_classes' => $school_classes]);
     }
 
     /**

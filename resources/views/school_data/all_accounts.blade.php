@@ -14,18 +14,21 @@
                         <b>Email:</b> {{$user['email']}}, <b>Role:</b> {{$roles[$user['role_id']-1]['name']}},
                         <b>Phone number:</b> {{$user['phone_number']}}, <b>Other info:</b> {{$user['other_info']}}
                         <br>
-                        <x-primary-button onclick="location.href = '/'" class="mt-3" style="background-color: darkblue">
-                            {{ __('Add class') }}
+                        <x-primary-button onclick="location.href = '{{route('school_members.show', $user['id'])}}'" class="mt-3" style="background-color: darkblue">
+                            {{ __('Appoint class') }}
                         </x-primary-button>
-                        <form action="{{route('school_data.destroy', $user['id'])}}" method="post">
-                            @csrf
-                            @method('DELETE')
-                            <x-primary-button class="mt-3" style="background-color: #ec1212">
-                                {{ __('Delete account') }}
-                            </x-primary-button>
-                        </form>
+                        @if(Auth::user()->id != $user['id'])
+                            <form action="{{route('accounts.destroy', $user['id'])}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <x-primary-button class="mt-3" style="background-color: #ec1212">
+                                    {{ __('Delete account') }}
+                                </x-primary-button>
+                            </form>
+                        @endif
                     </div>
-                    @endforeach
+                @endforeach
+
             </div>
         </div>
     </div>
