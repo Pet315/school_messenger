@@ -10,9 +10,16 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 @foreach($users as $user)
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <b>{{$user['id']}}. NSP:</b> {{$user['name']}} {{$user['surname']}} {{$user['patronymic']}},
-                        <b>Email:</b> {{$user['email']}}, <b>Role:</b> {{$roles[$user['role_id']-1]['name']}},
-                        <b>Phone number:</b> {{$user['phone_number']}}, <b>Other info:</b> {{$user['other_info']}},
+                        <b>{{$user['id']}}. NSP:</b> {{$user['name']}} {{$user['surname']}} {{$user['patronymic']}}
+                        <br>
+                        <b>Email:</b> {{$user['email']}}
+                        <br>
+                        <b>Role:</b> {{$roles[$user['role_id']-1]['name']}}
+                        <br>
+                        <b>Phone number:</b> {{$user['phone_number']}}
+                        <br>
+                        <b>Other info:</b> {{$user['other_info']}}
+                        <br>
                         <b>Classes: </b>
                         @foreach($school_members as $school_member)
                             @if($school_member['user_id'] == $user['id'])
