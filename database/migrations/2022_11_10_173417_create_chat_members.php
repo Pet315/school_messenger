@@ -20,7 +20,7 @@ return new class extends Migration
 
         Schema::table('chat_members', function (Blueprint $table) {
             $table->foreignId('chat_id')->constrained();
-            $table->foreignId('school_member_id')->constrained();
+            $table->foreignId('user_id')->constrained();
         });
     }
 

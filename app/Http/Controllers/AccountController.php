@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 //use App\Http\Requests\StorePostRequest;
 use App\Models\SchoolClass;
+use App\Models\SchoolMember;
 use App\Models\User;
 use App\Models\Role;
 use Exception;
@@ -51,8 +52,7 @@ class AccountController extends Controller
         User::insert([
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'name' => $request->name,
-            'surname' => $request->surname,
+            'name_surname' => $request->name_surname,
             'patronymic' => $request->patronymic,
             'phone_number' => $request->phone_number,
             'other_info' => $request->other_info,
@@ -70,8 +70,11 @@ class AccountController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function show($id)
+    public function show($user_id)
     {
+        $user = User::find($user_id);
+        $role = Role::find($user['role_id']);
+        return view('accounts.profile', ['role' => $role, 'user' => $user]);
     }
 
     /**
@@ -106,6 +109,7 @@ class AccountController extends Controller
     public function destroy($id)
     {
         if (Auth::user()->role_id == 3) {
+            SchoolMember::where('user_id', $id)->delete();
             User::destroy($id);
             return SchoolDataController::create();
         } else {

@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Chat;
 use App\Models\ChatMember;
-use App\Models\SchoolClass;
+use App\Models\OldMessage;
+use App\Models\Role;
 use App\Models\SchoolMember;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class SchoolMemberController extends Controller
+class ChatMemberController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,7 +30,12 @@ class SchoolMemberController extends Controller
      */
     public function create()
     {
-        //
+        $chat_members = ChatMember::where('user_id', Auth::user()->id)->get();
+        foreach ($chat_members as $chat_member) {
+            $chats[] = Chat::find($chat_member['chat_id']);
+        }
+
+        return view('chat_members.chats', ['chats' => $chats]);
     }
 
     /**
@@ -40,30 +46,7 @@ class SchoolMemberController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()->role_id == 3) {
-            $repeats = SchoolMember::where('user_id', $request->user_id)->where('school_class_id', $request->school_class_id)->get();
-            if (count($repeats) < 1){
-                SchoolMember::insert([
-                    'user_id' => $request->user_id,
-                    'school_class_id' => $request->school_class_id
-                ]);
-                $school_class = SchoolClass::find($request->school_class_id);
-                $user = User::find($request->user_id);
-                if ($user['role_id'] == 2) {
-                    Chat::insert([
-                        'name' => $school_class['name'],
-                    ]);
-                }
-                $chat = Chat::where('name', $school_class['name'])->get()[0];
-                ChatMember::insert([
-                    'chat_id' => $chat['id'],
-                    'user_id' => $request->user_id
-                ]);
-            }
-            return SchoolDataController::create();
-        } else {
-            return view('error');
-        }
+        //
     }
 
     /**
@@ -72,16 +55,14 @@ class SchoolMemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($chat_id)
     {
-        if (Auth::user()->role_id == 3) {
-            $user = User::find($id);
-            $school_classes = SchoolClass::get();
-            return view('school_members.appoint_class', ['user' => $user,
-                'school_classes' => $school_classes]);
-        } else {
-            return view('error');
+        $chat_members = ChatMember::where('chat_id', $chat_id)->get();
+        foreach ($chat_members as $chat_member) {
+            $users[] = User::find($chat_member['user_id']);
         }
+        $roles = Role::get();
+        return view('chat_members.participants_list', ['users' => $users, 'roles' => $roles]);
     }
 
     /**

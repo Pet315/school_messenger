@@ -45,22 +45,13 @@
 {{--                            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />--}}
                         </div>
 
-                        <!-- Name -->
+                        <!-- Name, surname -->
                         <div class="mt-4">
-                            <x-input-label for="name" :value="__('Name')" />
+                            <x-input-label for="name_surname" :value="__('Name, surname')" />
 
-                            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+                            <x-text-input id="name_surname" class="block mt-1 w-full" type="text" name="name_surname" :value="old('name_surname')" required autofocus />
 
 {{--                            <x-input-error :messages="$errors->get('name')" class="mt-2" />--}}
-                        </div>
-
-                        <!-- Surname -->
-                        <div class="mt-4">
-                            <x-input-label for="surname" :value="__('Surname')" />
-
-                            <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" :value="old('surname')" required autofocus />
-
-{{--                            <x-input-error :messages="$errors->get('surname')" class="mt-2" />--}}
                         </div>
 
                         <!-- Patronymic -->

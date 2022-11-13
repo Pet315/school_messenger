@@ -16,7 +16,7 @@
 
                             <select id="school_class_id" class="form-select block mt-1 w-full" type="text" name="school_class_id" style="border-color: lightgrey">
                                 @foreach($school_classes as $school_class)
-                                    <option value="{{$school_class['id']}}" selected>{{$school_class['name']}}</option>
+                                    <option value="{{$school_class['id']}}">{{$school_class['name']}}</option>
                                 @endforeach
                             </select>
 
@@ -28,11 +28,14 @@
                             <x-primary-button style="background-color: darkblue">
                                 {{ __('Appoint') }}
                             </x-primary-button>
-                            <x-primary-button onclick="location.href = '{{route('school_data.create')}}'" class="ml-4" style="background-color: #ec1212">
-                                {{ __("Don't appoint") }}
-                            </x-primary-button>
                         </div>
                     </form>
+
+                    <div class="flex items-center justify-end mt-4">
+                        <x-primary-button onclick="location.href = '{{route('school_data.create')}}'" class="ml-4" style="background-color: #ec1212">
+                            {{ __("Don't appoint") }}
+                        </x-primary-button>
+                    </div>
                 </div>
             </div>
         </div>

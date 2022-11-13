@@ -19,8 +19,7 @@ class UserSeeder extends Seeder
         User::insert([
             'email' => 'romvas44@gmail.com',
             'password' => Hash::make('123'),
-            'name' => 'Роман',
-            'surname' => 'Ващук',
+            'name_surname' => 'Роман Ващук',
             'patronymic' => 'Андрійович',
             'phone_number' => '+380987654321',
             'other_info' => 'Заступник директора, вчитель інформатики',

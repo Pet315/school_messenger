@@ -1,13 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
-use App\Models\Role;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\SchoolDataController;
 use App\Http\Controllers\SchoolMemberController;
-use App\Http\Controllers\SchoolClassController;
+use App\Http\Controllers\ChatMemberController;
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,20 +30,10 @@ Route::resource('school_data', SchoolDataController::class);
 
 Route::resource('school_members', SchoolMemberController::class);
 
-Route::resource('school_classes', SchoolClassController::class);
+Route::resource('chat_members', ChatMemberController::class);
 
-//Route::get('/profile', function () {
-//    $role = Role::find(Auth::user()->role_id);
-//    $user = Auth::user();
-//    return view('profile', ['role' => $role, 'user' => $user]);
-//})->middleware(['auth', 'verified'])->name('profile');
+//Route::get('/chat_members/link_to_profile/{user_id}', [ChatMemberController::class, 'link_to_profile']);
 
-//Route::get('/create_account', function () {
-//    if (Auth::user()->role_id == 3) {
-//        $roles = Role::get();
-//        return view('accounts.create_account', ['roles' => $roles]);
-//    }
-//    return view('error');
-//});
+Route::resource('chats', ChatController::class);
 
 require __DIR__.'/auth.php';

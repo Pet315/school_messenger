@@ -16,9 +16,17 @@ return new class extends Migration
         Schema::create('old_messages', function (Blueprint $table) {
             $table->id();
             $table->string('value');
-            $table->string('user');
-            $table->integer('room');
+//            $table->string('user');
+//            $table->integer('room');
 //            $table->timestamps();
+        });
+
+        Schema::table('old_messages', function (Blueprint $table) {
+            $table->foreignId('user_id')->constrained();
+        });
+
+        Schema::table('old_messages', function (Blueprint $table) {
+            $table->foreignId('chat_id')->constrained();
         });
     }
 
