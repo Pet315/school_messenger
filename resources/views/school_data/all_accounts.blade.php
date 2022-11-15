@@ -25,7 +25,11 @@
                             <b>Classes: </b>
                             @foreach($school_members as $school_member)
                                 @if($school_member['user_id'] == $user['id'])
-                                    {{$school_classes[$school_member['school_class_id']-1]['name']}},
+                                    @foreach($school_classes as $school_class)
+                                        @if($school_class['id'] == $school_member['school_class_id'])
+                                            {{$school_class['name']}},
+                                        @endif
+                                    @endforeach
                                 @endif
                             @endforeach
                             <br>
@@ -44,7 +48,6 @@
                         @endif
                     </div>
                 @endforeach
-
             </div>
         </div>
     </div>

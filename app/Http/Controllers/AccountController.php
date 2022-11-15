@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 //use App\Http\Requests\StorePostRequest;
+use App\Models\ChatMember;
+use App\Models\OldMessage;
 use App\Models\SchoolClass;
 use App\Models\SchoolMember;
 use App\Models\User;
@@ -85,7 +87,9 @@ class AccountController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        $roles = Role::get();
+        return view('accounts.edit_profile', ['user' => $user, 'roles' => $roles]);
     }
 
     /**
@@ -97,8 +101,46 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+        if (Auth::user()->role_id == 3) {
+            $this->destroy($id);
+            return $this->store($request);
+        }
+        $user = User::find($id);
+        $school_members = SchoolMember::where('user_id', $id)->get();
+        $chat_members = ChatMember::where('user_id', $id)->get();
+        $old_messages = OldMessage::where('user_id', $id)->get();
+        $this->destroy($id);
+        User::insert([
+            'email' => $user['email'],
+            'password' => $user['password'],
+            'name_surname' => $user['name_surname'],
+            'patronymic' => $user['patronymic'],
+            'phone_number' => $user['phone_number'],
+            'other_info' => $request->other_info,
+            'role_id' => $user['role_id']
+        ]);
+        $id = User::where('email', $user['email'])->get()[0]['id'];
+        foreach ($school_members as $school_member) {
+            SchoolMember::insert([
+                'user_id' => $id,
+                'school_class_id' => $school_member['school_class_id']
+            ]);
+        }
+        foreach ($chat_members as $chat_member) {
+            ChatMember::insert([
+                'chat_id' => $chat_member['chat_id'],
+                'user_id' => $id
+            ]);
+        }
+        foreach ($old_messages as $old_message) {
+            OldMessage::insert([
+                'value' => $old_message['value'],
+                'user_id' => $id,
+                'chat_id' => $old_message['chat_id'],
+            ]);
+        }
+        return redirect(RouteServiceProvider::HOME);
+        }
 
     /**
      * Remove the specified resource from storage.
@@ -108,12 +150,10 @@ class AccountController extends Controller
      */
     public function destroy($id)
     {
-        if (Auth::user()->role_id == 3) {
-            SchoolMember::where('user_id', $id)->delete();
-            User::destroy($id);
-            return SchoolDataController::create();
-        } else {
-            return view('error');
-        }
+        SchoolMember::where('user_id', $id)->delete();
+        ChatMember::where('user_id', $id)->delete();
+        OldMessage::where('user_id', $id)->delete();
+        User::destroy($id);
+        return SchoolDataController::create();
     }
 }

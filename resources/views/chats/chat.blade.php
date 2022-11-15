@@ -25,11 +25,13 @@
                     <b>Messages:</b>
                     <br><br>
                     @foreach($old_messages as $old_message)
-                        <div>
-                            <p>
-                                <b><a href="/accounts/{{$users[$old_message['user_id']-1]['id']}}">{{$users[$old_message['user_id']-1]['name_surname']}}</a></b>: {{$old_message['value']}}
-                            </p>
-                        </div>
+                        @foreach($users as $user)
+                            @if($old_message['user_id'] == $user['id'])
+                                <div>
+                                    <p><b><a href="/accounts/{{$user['id']}}">{{$user['name_surname']}}</a></b>: {{$old_message['value']}}</p>
+                                </div>
+                            @endif
+                        @endforeach
                     @endforeach
                     <div id="messages"></div>
                     <x-text-input type="text" id="text" style="width: 500px" placeholder="Enter something..."/>

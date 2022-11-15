@@ -28,13 +28,16 @@ class ChatMemberController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public static function create()
     {
         $chat_members = ChatMember::where('user_id', Auth::user()->id)->get();
-        foreach ($chat_members as $chat_member) {
-            $chats[] = Chat::find($chat_member['chat_id']);
+        if (count($chat_members) > 0) {
+            foreach ($chat_members as $chat_member) {
+                $chats[] = Chat::find($chat_member['chat_id']);
+            }
+        } else {
+            $chats = 'empty';
         }
-
         return view('chat_members.chats', ['chats' => $chats]);
     }
 

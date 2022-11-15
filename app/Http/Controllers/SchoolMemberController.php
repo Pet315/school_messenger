@@ -47,18 +47,6 @@ class SchoolMemberController extends Controller
                     'user_id' => $request->user_id,
                     'school_class_id' => $request->school_class_id
                 ]);
-                $school_class = SchoolClass::find($request->school_class_id);
-                $user = User::find($request->user_id);
-                if ($user['role_id'] == 2) {
-                    Chat::insert([
-                        'name' => $school_class['name'],
-                    ]);
-                }
-                $chat = Chat::where('name', $school_class['name'])->get()[0];
-                ChatMember::insert([
-                    'chat_id' => $chat['id'],
-                    'user_id' => $request->user_id
-                ]);
             }
             return SchoolDataController::create();
         } else {

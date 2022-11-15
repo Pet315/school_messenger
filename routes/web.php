@@ -6,6 +6,7 @@ use App\Http\Controllers\SchoolDataController;
 use App\Http\Controllers\SchoolMemberController;
 use App\Http\Controllers\ChatMemberController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\SchoolClassController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,12 +29,14 @@ Route::get('/accounts', [AccountController::class, 'index'])->middleware(['auth'
 
 Route::resource('school_data', SchoolDataController::class);
 
+Route::get('/school_data/remove_from_class/{role_id}/{user_id}', [SchoolDataController::class, 'remove_from_class']);
+
 Route::resource('school_members', SchoolMemberController::class);
 
 Route::resource('chat_members', ChatMemberController::class);
 
-//Route::get('/chat_members/link_to_profile/{user_id}', [ChatMemberController::class, 'link_to_profile']);
-
 Route::resource('chats', ChatController::class);
+
+Route::resource('school_classes', SchoolClassController::class);
 
 require __DIR__.'/auth.php';

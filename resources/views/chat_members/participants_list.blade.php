@@ -11,7 +11,7 @@
                 <?php $i=1 ?>
                 @foreach($users as $user)
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <b><?php echo($i); $i++?>. {{$user['name_surname']}}</b> - {{$roles[$user['role_id']-1]['name']}}
+                        <b><?php echo($i); $i++?>. <a href="/accounts/{{$user['id']}}">{{$user['name_surname']}}</a></b> - {{$roles[$user['role_id']-1]['name']}}
                     </div>
                 @endforeach
             </div>

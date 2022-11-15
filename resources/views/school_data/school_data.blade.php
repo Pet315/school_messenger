@@ -12,7 +12,7 @@
                     <x-primary-button onclick="location.href = '{{route('school_data.create')}}'" class="ml-4" style="background-color: darkblue">
                         {{ __('All accounts') }}
                     </x-primary-button>
-                    <x-primary-button onclick="location.href = '{{route('accounts')}}'" class="ml-4" style="background-color: darkgreen">
+                    <x-primary-button onclick="location.href = '{{route('school_classes.index')}}'" class="ml-4" style="background-color: darkgreen">
                         {{ __('Choose class') }}
                     </x-primary-button>
                 </div>

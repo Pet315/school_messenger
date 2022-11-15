@@ -26,7 +26,10 @@
                             {{ __('School data') }}
                         </x-nav-link>
                         <x-nav-link :href="route('accounts.create')" :active="request()->routeIs('accounts.create')">
-                            {{ __('Creating accounts') }}
+                            {{ __('Create account') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('school_classes.create')" :active="request()->routeIs('school_classes.create')">
+                            {{ __('Create class') }}
                         </x-nav-link>
                     @else
                         <x-nav-link :href="route('chat_members.create')" :active="request()->routeIs('chat_members.create')">
