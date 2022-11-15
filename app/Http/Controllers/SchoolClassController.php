@@ -48,14 +48,18 @@ class SchoolClassController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()->role_id == 3) {
-            SchoolClass::insert([
-                'name' => $request->name
-            ]);
-            $message = 'New class '.$request->name.' has been created!';
-            return view('school_classes.create_class', ['message' => $message]);
+        $school_classes = SchoolClass::get();
+        foreach ($school_classes as $school_class) {
+            if ($school_class['name'] == $request->name) {
+                $message = 'This name already exists. Please, enter another name';
+                return view('school_classes.create_class', ['message' => $message, 'color' => 'red']);
+            }
         }
-        return view('error');
+        SchoolClass::insert([
+            'name' => $request->name
+        ]);
+        $message = 'New class '.$request->name.' has been created!';
+        return view('school_classes.create_class', ['message' => $message, 'color' => 'darkgreen']);
     }
 
     /**

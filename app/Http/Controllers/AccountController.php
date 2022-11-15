@@ -119,7 +119,7 @@ class AccountController extends Controller
             'other_info' => $request->other_info,
             'role_id' => $user['role_id']
         ]);
-        $id = User::where('email', $user['email'])->get()[0]['id'];
+        $id = User::where('email', $user['email'])->where('role_id', $user['role_id'])->get()[0]['id'];
         foreach ($school_members as $school_member) {
             SchoolMember::insert([
                 'user_id' => $id,

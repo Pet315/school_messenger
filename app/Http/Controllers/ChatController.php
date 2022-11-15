@@ -28,14 +28,15 @@ class ChatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($message='', $color='')
     {
         if (Auth::user()->role_id == 2) {
             $school_members = SchoolMember::where('user_id', Auth::user()->id)->get();
             foreach ($school_members as $school_member) {
                 $school_classes[] = SchoolClass::find($school_member['school_class_id']);
             }
-            return view('chats.create_chat', ['school_classes' => $school_classes]);
+            return view('chats.create_chat', ['school_classes' => $school_classes, 'message' => $message,
+                'color' => $color]);
         } else {
             return view('error');
         }
@@ -49,6 +50,13 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
+        $chats = Chat::get();
+        foreach ($chats as $chat) {
+            if ($chat['name'] == $request->name) {
+                $message = 'This name already exists. Please, enter another name';
+                return $this->create($message, 'red');
+            }
+        }
         Chat::insert([
             'name' => $request->name
         ]);
