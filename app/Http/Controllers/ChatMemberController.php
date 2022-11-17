@@ -6,6 +6,7 @@ use App\Models\Chat;
 use App\Models\ChatMember;
 use App\Models\OldMessage;
 use App\Models\Role;
+use App\Models\SchoolClass;
 use App\Models\SchoolMember;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -61,11 +62,20 @@ class ChatMemberController extends Controller
     public function show($chat_id)
     {
         $chat_members = ChatMember::where('chat_id', $chat_id)->get();
+        $school_class_name = '';
+        $one_time = true;
         foreach ($chat_members as $chat_member) {
-            $users[] = User::find($chat_member['user_id']);
+            $user = User::find($chat_member['user_id']);
+            if($user['role_id'] == 1 and $one_time) {
+                $school_member = SchoolMember::where('user_id', $user['id'])->get()[0];
+                $school_class_name = SchoolClass::find($school_member['school_class_id'])['name'];
+                $one_time = false;
+            }
+            $users[] = $user;
         }
         $roles = Role::get();
-        return view('chat_members.participants_list', ['users' => $users, 'roles' => $roles]);
+        return view('chat_members.participants_list', ['users' => $users, 'roles' => $roles,
+            'school_class_name' => $school_class_name]);
     }
 
     /**

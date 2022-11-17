@@ -79,10 +79,11 @@ class SchoolClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, $message='', $color='')
     {
         $school_class = SchoolClass::find($id);
-        return view('school_classes.edit_class', ['school_class' => $school_class]);
+        return view('school_classes.edit_class', ['school_class' => $school_class, 'message' => $message,
+            'color' => $color]);
     }
 
     /**
@@ -94,6 +95,13 @@ class SchoolClassController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $school_classes = SchoolClass::get();
+        foreach ($school_classes as $school_class) {
+            if ($school_class['name'] == $request->name) {
+                $message = 'This name already exists. Please, enter another name';
+                return $this->edit($id, $message, 'red');
+            }
+        }
         $school_members = SchoolMember::where('school_class_id', $id)->get();
         $this->destroy($id);
         SchoolClass::insert([
@@ -106,7 +114,6 @@ class SchoolClassController extends Controller
                 'school_class_id' => $id
             ]);
         }
-        $request = new Request();
         $request->school_class_id = $id;
         return SchoolDataController::store($request);
     }

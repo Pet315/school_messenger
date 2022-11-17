@@ -1,4 +1,8 @@
 <x-app-layout>
+    <x-slot name="title">
+        Profile
+    </x-slot>
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ $role['name'] }} {{ __(' page. Profile') }}
@@ -23,11 +27,13 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <b>Other info:</b> {{$user['other_info']}}
                 </div>
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <x-primary-button onclick="location.href = '{{route('accounts.edit', $user['id'])}}'" style="background-color: darkgreen">
-                        {{ __('Edit profile') }}
-                    </x-primary-button>
-                </div>
+                @if(Auth::user()->id == $user['id'])
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <x-primary-button onclick="location.href = '{{route('accounts.edit', $user['id'])}}'" style="background-color: darkgreen">
+                            {{ __('Edit account') }}
+                        </x-primary-button>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

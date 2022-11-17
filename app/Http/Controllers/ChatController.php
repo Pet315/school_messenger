@@ -10,6 +10,7 @@ use App\Models\SchoolMember;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Termwind\Components\Ol;
 
 class ChatController extends Controller
 {
@@ -48,7 +49,7 @@ class ChatController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $old_messages=[])
     {
         $chats = Chat::get();
         foreach ($chats as $chat) {
@@ -60,8 +61,8 @@ class ChatController extends Controller
         Chat::insert([
             'name' => $request->name
         ]);
-        $chat = Chat::where('name', $request->name)->get()[0];
         $school_members = SchoolMember::where('school_class_id', $request->school_class_id)->get();
+        $chat = Chat::where('name', $request->name)->get()[0];
         foreach ($school_members as $school_member) {
             $users[] = User::find($school_member['user_id']);
         }
@@ -69,6 +70,13 @@ class ChatController extends Controller
             ChatMember::insert([
                 'chat_id' => $chat['id'],
                 'user_id' => $user['id']
+            ]);
+        }
+        foreach ($old_messages as $old_message) {
+            OldMessage::insert([
+                'value' => $old_message['value'],
+                'user_id' => $old_message['user_id'],
+                'chat_id' => $chat['id'],
             ]);
         }
         return ChatMemberController::create();
@@ -103,11 +111,12 @@ class ChatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, $message='', $color='')
     {
         $chat = Chat::find($id);
         $school_classes = SchoolClass::get();
-        return view('chats.edit_chat', ['chat' => $chat, 'school_classes' => $school_classes]);
+        return view('chats.edit_chat', ['chat' => $chat, 'school_classes' => $school_classes,
+            'message' => $message, 'color' => $color]);
     }
 
     /**
@@ -119,8 +128,27 @@ class ChatController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $chats = Chat::get();
+        foreach ($chats as $chat) {
+            if ($chat['name'] == $request->name) {
+                $message = 'This name already exists. Please, enter another name';
+                return $this->edit($id, $message, 'red');
+            }
+        }
+        $chat_members = ChatMember::where('chat_id', $id)->get();
+        foreach ($chat_members as $chat_member) {
+            $user = User::find($chat_member['user_id']);
+            if ($user['role_id'] == 1) {
+                $school_member = SchoolMember::where('user_id', $user['id'])->get()[0];
+                if ($school_member['school_class_id'] != $request->school_class_id) {
+                    $message = 'This school class is not for this chat';
+                    return $this->edit($id, $message, 'red');
+                }
+            }
+        }
+        $old_messages = OldMessage::where('chat_id', $id)->get();
         $this->destroy($id);
-        return $this->store($request);
+        return $this->store($request, $old_messages);
     }
 
     /**

@@ -6,7 +6,7 @@
 {{--                <img src="img/sm-logo.jpg" width="80" style="margin-left: 30px">--}}
                 <img src="https://png.pngtree.com/png-clipart/20211009/original/pngtree-school-logo-png-image_6846798.png" width="100" style="margin-left: 20px; border-radius: 50%">
             </a>
-            <p style="margin-top: 10px"><b>School Messenger</b></p>
+            {{ __('School Messenger') }}
         </x-slot>
 
         <!-- Session Status -->
@@ -56,5 +56,9 @@
                 </x-primary-button>
             </div>
         </form>
+        <p class="underline text-sm text-gray-600 hover:text-gray-900 mt-4" style="text-align: center">
+            {{ __('Connect with us: (+38)011-222-33-44') }}
+        </p>
+{{--        <p class="mt-4" style="text-align: center"><b>Connect with us: +38-011-222-33-44</b></p>--}}
     </x-auth-card>
 </x-guest-layout>

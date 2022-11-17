@@ -1,7 +1,10 @@
 <x-app-layout>
+    <x-slot name="title">
+        Appoint class
+    </x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Appoint school class for school member: ') }} {{$user['name']}} {{$user['surname']}}
+            {{ __('Appoint school class for user: ') }} {{$user['name_surname']}}
         </h2>
     </x-slot>
     <div class="py-12">

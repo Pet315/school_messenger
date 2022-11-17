@@ -1,7 +1,11 @@
 <x-app-layout>
+    <x-slot name="title">
+        Edit account
+    </x-slot>
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit chat') }}
+            {{ __('Edit account') }}
         </h2>
     </x-slot>
 
@@ -60,7 +64,9 @@
 
                                 <select id="role_id" class="form-select block mt-1 w-full" type="text" name="role_id" style="border-color: lightgrey">
                                     @foreach($roles as $role)
-                                        <option value="{{$role['id']}}" selected>{{$role['name']}}</option>
+                                        @if($role['name'] != 'Admin')
+                                            <option value="{{$role['id']}}" selected>{{$role['name']}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -88,7 +94,7 @@
 
                         <div class="flex items-center justify-end mt-4">
                             <x-primary-button style="background-color: darkblue">
-                                {{ __('Edit chat') }}
+                                {{ __('Edit profile') }}
                             </x-primary-button>
                         </div>
                     </form>

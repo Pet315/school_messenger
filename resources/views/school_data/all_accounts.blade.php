@@ -1,4 +1,7 @@
 <x-app-layout>
+    <x-slot name="title">
+        All accounts
+    </x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('School data. All accounts') }}
@@ -20,23 +23,31 @@
                         <b>Phone number:</b> {{$user['phone_number']}}
                         <br>
                         <b>Other info:</b> {{$user['other_info']}}
-                        @if($roles[$user['role_id']-1]['name'] != 'Admin')
+                        @if($user['role_id'] != 3)
                             <br>
                             <b>Classes: </b>
+                            <?php $has_class = false ?>
                             @foreach($school_members as $school_member)
                                 @if($school_member['user_id'] == $user['id'])
                                     @foreach($school_classes as $school_class)
                                         @if($school_class['id'] == $school_member['school_class_id'])
                                             {{$school_class['name']}},
+                                            <?php $has_class = true ?>
                                         @endif
                                     @endforeach
                                 @endif
                             @endforeach
+                        @endif
+                        @if(($user['role_id'] == 1 and !$has_class) or $user['role_id'] == 2)
                             <br>
                             <x-primary-button onclick="location.href = '{{route('school_members.show', $user['id'])}}'" class="mt-3" style="background-color: darkblue">
                                 {{ __('Appoint class') }}
                             </x-primary-button>
                         @endif
+                        <br>
+                        <x-primary-button onclick="location.href = '{{route('accounts.edit', $user['id'])}}'" class="mt-3" style="background-color: darkgreen">
+                            {{ __('Edit account') }}
+                        </x-primary-button>
                         @if(Auth::user()->id != $user['id'])
                             <form action="{{route('accounts.destroy', $user['id'])}}" method="post">
                                 @csrf

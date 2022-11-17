@@ -1,4 +1,8 @@
 <x-app-layout>
+    <x-slot name="title">
+        Class accounts
+    </x-slot>
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Accounts of school class: ') }} {{$selected_school_class['name']}}
@@ -36,19 +40,23 @@
                             <b><u><a href = "/school_data/remove_from_class/{{$selected_school_class['id']}}/{{$user['id']}}" class="mt-3" style="color: darkred">
                                 {{ __('Remove from class') }}
                             </a></u></b>
-                            <br>
-                            <x-primary-button onclick="location.href = '{{route('school_members.show', $user['id'])}}'" class="mt-3" style="background-color: darkblue">
-                                {{ __('Appoint class') }}
-                            </x-primary-button>
-                            @if(Auth::user()->id != $user['id'])
-                                <form action="{{route('accounts.destroy', $user['id'])}}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <x-primary-button class="mt-3" style="background-color: #ec1212">
-                                        {{ __('Delete account') }}
-                                    </x-primary-button>
-                                </form>
+                            @if($user['role_id'] != 1)
+                                <br>
+                                <x-primary-button onclick="location.href = '{{route('school_members.show', $user['id'])}}'" class="mt-3" style="background-color: darkblue">
+                                    {{ __('Appoint class') }}
+                                </x-primary-button>
                             @endif
+                            <br>
+                            <x-primary-button onclick="location.href = '{{route('accounts.edit', $user['id'])}}'" class="mt-3" style="background-color: darkgreen">
+                                {{ __('Edit account') }}
+                            </x-primary-button>
+                            <form action="{{route('accounts.destroy', $user['id'])}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <x-primary-button class="mt-3" style="background-color: #ec1212">
+                                    {{ __('Delete account') }}
+                                </x-primary-button>
+                            </form>
                         </div>
                     @endforeach
                 @else

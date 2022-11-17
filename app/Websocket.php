@@ -2,7 +2,6 @@
 namespace App;
 use App\Models\OldMessage;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
@@ -16,7 +15,6 @@ class Websocket implements MessageComponentInterface {
     public function onOpen(ConnectionInterface $conn) {
         // Store the new connection to send messages to later
         $this->clients->attach($conn);
-
         echo "New connection! ({$conn->resourceId})\n";
     }
 

@@ -34,11 +34,12 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($message='', $color='')
     {
         if (Auth::user()->role_id == 3) {
             $roles = Role::get();
-            return view('accounts.create_account', ['roles' => $roles]);
+            return view('accounts.create_account', ['roles' => $roles, 'message' => $message,
+                'color' => $color]);
         }
         return view('error');
     }
@@ -51,6 +52,13 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
+        $users = User::get();
+        foreach ($users as $user) {
+            if ($user['email'] == $request->email) {
+                $message = 'This email already exists. Please, enter another email';
+                return $this->create($message, 'red');
+            }
+        }
         User::insert([
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -89,7 +97,7 @@ class AccountController extends Controller
     {
         $user = User::find($id);
         $roles = Role::get();
-        return view('accounts.edit_profile', ['user' => $user, 'roles' => $roles]);
+        return view('accounts.edit_account', ['user' => $user, 'roles' => $roles]);
     }
 
     /**
@@ -101,25 +109,39 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Auth::user()->role_id == 3) {
-            $this->destroy($id);
-            return $this->store($request);
-        }
         $user = User::find($id);
         $school_members = SchoolMember::where('user_id', $id)->get();
         $chat_members = ChatMember::where('user_id', $id)->get();
         $old_messages = OldMessage::where('user_id', $id)->get();
-        $this->destroy($id);
-        User::insert([
-            'email' => $user['email'],
-            'password' => $user['password'],
-            'name_surname' => $user['name_surname'],
-            'patronymic' => $user['patronymic'],
-            'phone_number' => $user['phone_number'],
-            'other_info' => $request->other_info,
-            'role_id' => $user['role_id']
-        ]);
-        $id = User::where('email', $user['email'])->where('role_id', $user['role_id'])->get()[0]['id'];
+        $for_profile = true;
+        if (Auth::user()->role_id == 3) {
+            if (Auth::user()->id != $user['id']) {
+                $for_profile = false;
+            }
+            $this->destroy($id);
+            User::insert([
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'name_surname' => $request->name_surname,
+                'patronymic' => $request->patronymic,
+                'phone_number' => $request->phone_number,
+                'other_info' => $request->other_info,
+                'role_id' => $request->role_id
+            ]);
+            $id = User::where('email', $request->email)->where('role_id', $request->role_id)->get()[0]['id'];
+        } else {
+            $this->destroy($id);
+            User::insert([
+                'email' => $user['email'],
+                'password' => $user['password'],
+                'name_surname' => $user['name_surname'],
+                'patronymic' => $user['patronymic'],
+                'phone_number' => $user['phone_number'],
+                'other_info' => $request->other_info,
+                'role_id' => $user['role_id']
+            ]);
+            $id = User::where('email', $user['email'])->where('role_id', $user['role_id'])->get()[0]['id'];
+        }
         foreach ($school_members as $school_member) {
             SchoolMember::insert([
                 'user_id' => $id,
@@ -138,6 +160,9 @@ class AccountController extends Controller
                 'user_id' => $id,
                 'chat_id' => $old_message['chat_id'],
             ]);
+        }
+        if(!$for_profile) {
+            return SchoolDataController::create();
         }
         return redirect(RouteServiceProvider::HOME);
         }
