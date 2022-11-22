@@ -63,10 +63,16 @@
                                 <x-input-label for="role_id" :value="__('Role')" />
 
                                 <select id="role_id" class="form-select block mt-1 w-full" type="text" name="role_id" style="border-color: lightgrey">
+
                                     @foreach($roles as $role)
-                                        @if($role['name'] != 'Admin')
-                                            <option value="{{$role['id']}}" selected>{{$role['name']}}</option>
+                                        @if($role['name'] == 'Admin' and Auth::user()->role_id != 3)
+                                            @continue
                                         @endif
+                                        <option value="{{$role['id']}}"
+                                                @if($user['role_id'] == $role['id'])
+                                                    selected
+                                            @endif
+                                        >{{$role['name']}}</option>
                                     @endforeach
                                 </select>
                             </div>
