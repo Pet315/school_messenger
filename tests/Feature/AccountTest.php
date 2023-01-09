@@ -31,7 +31,7 @@ class AccountTest extends TestCase
             'password' => '123',
         ]);
 
-        $response = $this->put(route('accounts.update', 33), [
+        $response = $this->put(route('accounts.update', 1), [
             'email' => 'abcd@gmail.com',
             'password' => '9991',
             'name_surname' => 'abcd',
@@ -50,7 +50,7 @@ class AccountTest extends TestCase
             'password' => '123',
         ]);
 
-        $response = $this->delete(route('accounts.destroy', 34), []);
+        $response = $this->delete(route('accounts.destroy', 2), []);
 
         $response->assertStatus(200);
     }

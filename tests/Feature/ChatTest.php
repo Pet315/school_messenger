@@ -27,7 +27,7 @@ class ChatTest extends TestCase
             'password' => '1234',
         ]);
 
-        $response = $this->put(route('chats.update', 13), [
+        $response = $this->put(route('chats.update', 1), [
             'name' => 'abcde',
             'school_class_id' => 7
         ]);
@@ -41,7 +41,7 @@ class ChatTest extends TestCase
             'password' => '1234',
         ]);
 
-        $response = $this->delete(route('chats.destroy', 14), []);
+        $response = $this->delete(route('chats.destroy', 2), []);
 
         $response->assertStatus(200);
     }

@@ -29,7 +29,7 @@ class SchoolClassTest extends TestCase
             'password' => '123',
         ]);
 
-        $response = $this->put(route('school_classes.update', 52), [
+        $response = $this->put(route('school_classes.update', 34), [
             'name' => '12-B',
         ]);
         $response->assertStatus(200);
@@ -42,7 +42,7 @@ class SchoolClassTest extends TestCase
             'password' => '123',
         ]);
 
-        $response = $this->delete(route('school_classes.destroy', 53), []);
+        $response = $this->delete(route('school_classes.destroy', 35), []);
 
         $response->assertStatus(200);
     }
