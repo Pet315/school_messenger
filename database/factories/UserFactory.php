@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -18,12 +19,22 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'email' => 'romvas44@gmail.com',
+            'password' => '123',
+//            'name_surname' => 'Роман Ващук',
+//            'patronymic' => 'Андрійович',
+//            'phone_number' => '+380987654321',
+//            'other_info' => 'Заступник директора, вчитель інформатики',
+//            'role_id' => 3
         ];
+
+//        return [
+//            'name' => fake()->name(),
+//            'email' => fake()->unique()->safeEmail(),
+//            'email_verified_at' => now(),
+//            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+//            'remember_token' => Str::random(10),
+//        ];
     }
 
     /**
@@ -31,10 +42,10 @@ class UserFactory extends Factory
      *
      * @return static
      */
-    public function unverified()
-    {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
-    }
+//    public function unverified()
+//    {
+//        return $this->state(fn (array $attributes) => [
+//            'email_verified_at' => null,
+//        ]);
+//    }
 }

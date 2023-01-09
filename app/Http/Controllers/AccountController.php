@@ -165,7 +165,7 @@ class AccountController extends Controller
             return SchoolDataController::create();
         }
         return redirect(RouteServiceProvider::HOME);
-        }
+    }
 
     /**
      * Remove the specified resource from storage.
