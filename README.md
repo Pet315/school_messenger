@@ -22,7 +22,7 @@ It's a messenger that could be used for school online learning.
 |14.| Participants list | '/chat_members/{id}'        | ChatMemberController                | show     |
 |15.| Create chat       | '/chats/create'             | ChatController                      | create   |
 |16.| Edit chat         | '/chats/{id}/edit'          | ChatController                      | edit     |
-|17.| Error             | different                   | different                           | different|
+|17.| Error             | -                           | -                                   | -        |
 
 4. Moving through pages
 5. [Unit-testing](https://github.com/Pet315/school_messenger/blob/main/src/tests)
